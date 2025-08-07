@@ -26,8 +26,8 @@ model Store{
  tax      Float
  itemPricing Pricing[]
  orders Order[]
- 
- 
+
+  premiumItems PremiumItem[]
 }
 
 model Item {
@@ -36,6 +36,7 @@ model Item {
   category String
   pricing Pricing[]
   orderItems OrderItem[]
+  premiumItems PremiumItem[]
  
 
 }
@@ -62,6 +63,14 @@ model Order {
     items OrderItem[]
 }
 
+model PremiumItem{
+     id        Int      @id @default(autoincrement())
+     store Store @relation(fields: [storeId],references: [id])
+     storeId Int
+     item Item @relation(fields: [itemId],references: [id])
+     itemId Int
+
+}
 model OrderItem{
      id        Int      @id @default(autoincrement())
     order    Order  @relation(fields: [orderId],references: [id])
