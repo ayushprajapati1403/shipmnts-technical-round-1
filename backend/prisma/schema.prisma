@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  // output   = "../generated/prisma"
 }
 
 datasource db {
@@ -13,4 +14,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//database 
 
+
+
+model Store{
+ id        Int      @id @default(autoincrement())
+ name     String    
+ location String
+ currency String
+ tax      Float
+ itemPricing Pricing[]
+ orders Order[]
+ 
+ 
+}
+
+model Item {
+  id        Int      @id @default(autoincrement())
+  name String 
+  category String
+  pricing Pricing[]
+  orderItems OrderItem[]
+ 
+
+}
+
+model Pricing{
+    id        Int      @id @default(autoincrement())
+    store Store @relation(fields: [storeId],references: [id])
+    storeId Int
+    item Item @relation(fields: [itemId],references: [id])
+    itemId Int
+    StartingDate DateTime
+    EndingDate DateTime
+    HalfSizePrice Int
+    FullSizePrice Int 
+
+}
+
+model Order {
+   id        Int      @id @default(autoincrement())
+   store   Store @relation(fields: [storeId],references: [id])
+   storeId   Int
+   orderDate DateTime
+   sandwichSize   String
+    items OrderItem[]
+}
+
+model OrderItem{
+     id        Int      @id @default(autoincrement())
+    order    Order  @relation(fields: [orderId],references: [id])
+    orderId Int
+    item Item  @relation(fields: [itemId],references: [id])
+    itemId Int
+    isExtra Boolean
+    quantity Int @default(1)
+
+}
