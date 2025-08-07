@@ -59,7 +59,7 @@ export async function CalculatePrice(OrderData) {
 
             FinalItems.push({
                 itemId:item.id,
-                name:match?.item.name,
+                name:match?.itemId.name || "sandwitch",
                 basicPrice,
                 premiumItemId:premiumItemId.has(item.id),
                 isExtra:item.isExtra || false,
@@ -69,7 +69,7 @@ export async function CalculatePrice(OrderData) {
         const tax=Math.floor(subtotal*Store.tax/100);
         const total=subtotal+tax;
         return{
-            currency:store.currency,
+            currency:Store.currency,
             items:FinalItems,
             subtotal,
             tax,
